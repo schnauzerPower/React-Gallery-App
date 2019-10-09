@@ -1,0 +1,12 @@
+import React from 'react';
+
+const NoPhotos = props => (
+    <li className="not-found">
+        <p>You search did not return any results. Please try again.</p>
+    </li>
+);
+
+export default NoPhotos;
+
+
+
