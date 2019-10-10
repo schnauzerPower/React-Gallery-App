@@ -1,26 +1,33 @@
 import React from 'react';
-import Gif from './Gif';
-import NoGifs from './NoGifs';
+import Photo from './Photo';
+import NoPhotos from './NoPhotos';
 
-const PhotoList = props => { 
+const PhotoList = (props) => { 
     const results = props.data;
-    let photo;
+    let photos;
     if(results.length > 0) {
-        photo = results.map(photo => 
-            <Gif url={`https://farm66.staticflickr.com/65535/${gif.id}_${gif.secret}_m.jpg`} />
+        
+        photos = results.map(photo => 
+            <Photo url={`https://farm66.staticflickr.com/65535/${photo.id}_${photo.secret}_m.jpg`} />
         );
+        
     }
     else {
-        gifs = <NoGifs />
+        photos = <NoPhotos />
     }
     
-  console.log(results);
   return(
-    <ul className="gif-list">
-      {gifs}
-    </ul> 
+    <div class="photo-container">
+        <ul>
+            {photos}
+        </ul> 
+    </div>
+    
   );
 };
 
 export default PhotoList;
+
+
+
 

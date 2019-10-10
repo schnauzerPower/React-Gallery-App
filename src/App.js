@@ -7,32 +7,83 @@ Secret:
 
 
 
-import React from 'react';
+import React, {Component} from 'react';
 import {
     BrowserRouter,
-    Route
+    Route,
+    Link
 } from 'react-router-dom';
 
-
-import Home from './Components/Home';
+import axios from 'axios';
+import SearchForm from './Components/SearchForm';
 import Cats from './Components/Cats';
 import Dogs from './Components/Dogs';
 import Computers from './Components/Computers';
+import PhotoList from './Components/PhotoList';
 
-const App = () => (
-    <BrowserRouter>
-        <body>
-        <div className='container'>
-            <Home />
-            <Route path='/cats' component={Cats} />
-            <Route path='/dogs' component={Dogs} />
-            <Route path='/computers' component={Computers} />
-        </div>
-        </body>
-    </BrowserRouter>
+export default class App extends Component {
+  
+  constructor(props) {
+    super(props);
+    let match = this.props.match;
+    this.state = {
+        photos: [],
+        loading: true,
+    };
+  }
+    
+  componentDidMount() {
+      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=54088f91bf8f10a555ca0c6d5ac214e3&text=northernlights&per_page=24&format=json&nojsoncallback=1`)
+          .then(response => {
+                console.log(response);
+                this.setState({
+                    photos: response.data.photos.photo
+                })
+          })
+          .catch(error => {
+            console.log('Error fetching and parsing data', error);
+          });
+      
+  }
+
+  performSearch = (query) => {
+      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=54088f91bf8f10a555ca0c6d5ac214e3&text=${query}&per_page=24&format=json&nojsoncallback=1`)
+          .then(response => {
+                console.log(response);
+                this.setState({
+                    photos: response.data.photos.photo
+                })
+          })
+          .catch(error => {
+            console.log('Error fetching and parsing data', error);
+          });
+  }
+  
+  render() {
+     return (
+        <BrowserRouter>
+            <body>
+            <div className='container'>
+             <nav className="main-nav">
+                    <SearchForm  onSearch={this.performSearch}/>
+                    <ul>
+                        <li><Link to='/cats'>Cats</Link></li>
+                        <li><Link to='/dogs'>Dogs</Link></li>
+                        <li><Link to='/computers'>Computers</Link></li>
+                    </ul>
+                </nav>
+                <Route path='/cats' component={Cats} />
+                <Route path='/dogs' component={Dogs} />
+                <Route path='/computers' component={Computers} />
+                <Route path='/' render={()=> <PhotoList data={this.state.photos} />} />
+            </div>
+            </body>
+        </BrowserRouter>
         
-);
+     );
 
-export default App;
+  }
+}
+
 
 

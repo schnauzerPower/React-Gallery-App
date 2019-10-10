@@ -12,11 +12,13 @@ export default class SearchForm extends Component {
   
   handleSubmit = e => {
     e.preventDefault();
+    let querySearch = this.query.value;
     this.props.onSearch(this.query.value);
     e.currentTarget.reset();
   }
   
-  render() {  
+  render() { 
+      console.log(this.state.searchText);
     return (
       <form class="search-form" onSubmit={this.handleSubmit}>
         <input type="search" onChange={this.onSearchChange} name="search" ref={(input) => this.query = input} placeholder="Search" required/>
@@ -31,35 +33,3 @@ export default class SearchForm extends Component {
   }
 }
 
-/*import React, { Component } from 'react';
-
-export default class SearchForm extends Component {
-  
-  state = {
-    searchText: ''
-  }
-  
-  onSearchChange = e => {
-    this.setState({ searchText: e.target.value });
-  }
-  
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.onSearch(this.query.value);
-    e.currentTarget.reset();
-  }
-  
-  render() {  
-    return (
-      <form className="search-form" onSubmit={this.handleSubmit} >
-        <label className="is-hidden" htmlFor="search">Search</label>
-        <input type="search" 
-               onChange={this.onSearchChange}
-               name="search" 
-               ref={(input) => this.query = input}
-               placeholder="Search..." />
-        <button type="submit" id="submit" className="search-button"><i className="material-icons icn-search">search</i></button>
-      </form>      
-    );
-  }
-}*/
