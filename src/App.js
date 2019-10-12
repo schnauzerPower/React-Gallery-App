@@ -65,7 +65,7 @@ export default class App extends Component {
             <body>
             <div className='container'>
              <nav className="main-nav">
-                    <SearchForm  onSearch={this.performSearch}/>
+                    <Route path='/' render={({match, history}) => <SearchForm  onSearch={this.performSearch} match={match} history={history}/>} />
                     <ul>
                         <li><Link to='/cats'>Cats</Link></li>
                         <li><Link to='/dogs'>Dogs</Link></li>
@@ -75,7 +75,7 @@ export default class App extends Component {
                 <Route path='/cats' component={Cats} />
                 <Route path='/dogs' component={Dogs} />
                 <Route path='/computers' component={Computers} />
-                <Route path='/' render={()=> <PhotoList data={this.state.photos} />} />
+                <Route path='/:query' render={({match})=> <PhotoList data={this.state.photos} match={match} />} />
             </div>
             </body>
         </BrowserRouter>

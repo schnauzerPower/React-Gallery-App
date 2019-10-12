@@ -3,6 +3,7 @@ import Photo from './Photo';
 import NoPhotos from './NoPhotos';
 
 const PhotoList = (props) => { 
+    let query = props.match.params.query;
     const results = props.data;
     let photos;
     if(results.length > 0) {
@@ -10,6 +11,8 @@ const PhotoList = (props) => {
         photos = results.map(photo => 
             <Photo url={`https://farm66.staticflickr.com/65535/${photo.id}_${photo.secret}_m.jpg`} />
         );
+
+        console.log(props.match.params);
         
     }
     else {

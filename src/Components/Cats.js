@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const Cats = () => {
- 
-    return (
-         <h2>Cat Results</h2>
+class Cats extends Component {
+  
+    render() {
+        return (
+            <h2>Cat Results</h2>
     
-    )  
+        )  
+    }
+    
 }
  
 
