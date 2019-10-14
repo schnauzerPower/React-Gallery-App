@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 
-class Cats extends Component {
+class Birds extends Component {
     
     componentDidMount() {
       
-        this.props.getCats("cats");
+        const x = this.props.getBirds("birds");
       
   }
   
     render() {
         return (
-            <h2>Cat Results</h2>
+            <h2>Bird Results</h2>
     
         )  
     }
     
 }
- 
 
-export default Cats;
+export default Birds;

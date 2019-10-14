@@ -1,8 +1,20 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const Dogs = () => (
-  <h2>Dog Results</h2>
+class Dogs extends Component {
     
-);
+    componentDidMount() {
+      
+        this.props.getDogs("dogs");
+      
+  }
+  
+    render() {
+        return (
+            <h2>Dog Results</h2>
+    
+        )  
+    }
+    
+}
 
 export default Dogs;

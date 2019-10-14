@@ -11,21 +11,22 @@ import React, {Component} from 'react';
 import {
     BrowserRouter,
     Route,
-    Link
+    NavLink,
+    Redirect
 } from 'react-router-dom';
 
 import axios from 'axios';
 import SearchForm from './Components/SearchForm';
 import Cats from './Components/Cats';
 import Dogs from './Components/Dogs';
-import Computers from './Components/Computers';
+import Birds from './Components/Birds';
 import PhotoList from './Components/PhotoList';
 
 export default class App extends Component {
   
   constructor(props) {
     super(props);
-    let match = this.props.match;
+    let match = props.match;
     this.state = {
         photos: [],
         loading: true,
@@ -33,25 +34,16 @@ export default class App extends Component {
   }
     
   componentDidMount() {
-      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=54088f91bf8f10a555ca0c6d5ac214e3&text=northernlights&per_page=24&format=json&nojsoncallback=1`)
-          .then(response => {
-                console.log(response);
-                this.setState({
-                    photos: response.data.photos.photo
-                })
-          })
-          .catch(error => {
-            console.log('Error fetching and parsing data', error);
-          });
-      
+  
+   
   }
 
   performSearch = (query) => {
       axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=54088f91bf8f10a555ca0c6d5ac214e3&text=${query}&per_page=24&format=json&nojsoncallback=1`)
           .then(response => {
-                console.log(response);
                 this.setState({
-                    photos: response.data.photos.photo
+                    photos: response.data.photos.photo,
+                    loading: false
                 })
           })
           .catch(error => {
@@ -59,7 +51,9 @@ export default class App extends Component {
           });
   }
   
+  
   render() {
+      console.log(this.state.loading);
      return (
         <BrowserRouter>
             <body>
@@ -67,15 +61,25 @@ export default class App extends Component {
              <nav className="main-nav">
                     <Route path='/' render={({match, history}) => <SearchForm  onSearch={this.performSearch} match={match} history={history}/>} />
                     <ul>
-                        <li><Link to='/cats'>Cats</Link></li>
-                        <li><Link to='/dogs'>Dogs</Link></li>
-                        <li><Link to='/computers'>Computers</Link></li>
+                        <li><NavLink to='/cats' activeClassName='active'>Cats</NavLink></li>
+                        <li><NavLink to='/dogs' activeClassName='active'>Dogs</NavLink></li>
+                        <li><NavLink to='/birds' activeClassName='active'>Birds</NavLink></li>
                     </ul>
                 </nav>
-                <Route path='/cats' component={Cats} />
-                <Route path='/dogs' component={Dogs} />
-                <Route path='/computers' component={Computers} />
-                <Route path='/:query' render={({match})=> <PhotoList data={this.state.photos} match={match} />} />
+                <Route exact path='/' render={()=> <Redirect to='/cats' />} />
+                <Route path='/cats' render={()=> <Cats getCats={this.performSearch}  />} />
+                <Route path='/dogs' render={()=> <Dogs getDogs={this.performSearch}  />} />
+                <Route path='/birds' render={()=> <Birds getBirds={this.performSearch}  />} />
+                
+                {
+                    
+                    (this.state.loading)
+                    ?<p>Loading...</p>
+                    : <Route path='/:query' render={({match})=> <PhotoList data={this.state.photos} match={match} loading={this.state.loading} 
+                getPictures={this.performSearch} />} />
+                    
+                }
+      
             </div>
             </body>
         </BrowserRouter>
@@ -84,6 +88,7 @@ export default class App extends Component {
 
   }
 }
+
 
 
 

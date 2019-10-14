@@ -20,7 +20,6 @@ export default class SearchForm extends Component {
   }
   
   render() { 
-      console.log(this.state.searchText);
     return (
       <form class="search-form" onSubmit={this.handleSubmit}>
         <input type="search" onChange={this.onSearchChange} name="search" ref={(input) => this.query = input} placeholder="Search" required/>
