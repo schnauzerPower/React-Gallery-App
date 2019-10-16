@@ -26,7 +26,7 @@ export default class App extends Component {
   
   constructor(props) {
     super(props);
-    let match = props.match;
+  
     this.state = {
         photos: [],
         loading: true,
@@ -34,8 +34,8 @@ export default class App extends Component {
   }
     
   componentDidMount() {
-  
-   
+    
+    
   }
 
   performSearch = (query) => {
@@ -55,7 +55,7 @@ export default class App extends Component {
   render() {
       console.log(this.state.loading);
      return (
-        <BrowserRouter>
+        
             <body>
             <div className='container'>
              <nav className="main-nav">
@@ -82,7 +82,7 @@ export default class App extends Component {
       
             </div>
             </body>
-        </BrowserRouter>
+       
         
      );
 

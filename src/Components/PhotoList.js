@@ -6,7 +6,6 @@ const PhotoList = (props) => {
     let query = props.match.params.query;
     const results = props.data;
     let photos;
-    console.log(query);
    
     if(results.length > 0) {
         
