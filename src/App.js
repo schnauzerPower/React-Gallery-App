@@ -16,6 +16,9 @@ import {
 import axios from 'axios';
 import PhotoContainer from './Components/PhotoContainer';
 import Nav from './Components/Nav';
+import ApiKey from './config.js';
+
+const key = ApiKey;
 
 export default class App extends Component {
   
@@ -41,7 +44,8 @@ export default class App extends Component {
   }
 
   performSearch = (query) => {
-      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=54088f91bf8f10a555ca0c6d5ac214e3&text=${query}&per_page=24&format=json&nojsoncallback=1`)
+      this.setState({loading:true});
+      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${key}&text=${query}&per_page=24&format=json&nojsoncallback=1`)
           .then(response => {
                 this.setState({
                     photos: response.data.photos.photo,
@@ -55,6 +59,9 @@ export default class App extends Component {
   
   
   render() {
+      console.log("fuck")
+      console.log(key);
+      console.log("this")
      return (
             <div className='container'>
                 <Route path='/' render={(props) => <Nav  onSearch={this.performSearch} {...props}/>} />
