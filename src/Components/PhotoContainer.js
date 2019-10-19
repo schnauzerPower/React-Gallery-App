@@ -2,15 +2,14 @@ import React from 'react';
 import Photo from './Photo';
 import NoPhotos from './NoPhotos';
 
-const PhotoList = (props) => { 
-    let query = props.match.params.query;
+const PhotoContainer = (props) => { 
     const results = props.data;
     let photos;
    
     if(results.length > 0) {
         
         photos = results.map(photo => 
-            <Photo url={`https://farm66.staticflickr.com/65535/${photo.id}_${photo.secret}_m.jpg`} />
+            <Photo url={`https://farm66.staticflickr.com/65535/${photo.id}_${photo.secret}_m.jpg`} key={photo.id} />
         );
         
     }
@@ -19,7 +18,7 @@ const PhotoList = (props) => {
     }
     
   return(
-    <div class="photo-container">
+    <div className="photo-container">
         <ul>
             {photos}
         </ul> 
@@ -28,7 +27,7 @@ const PhotoList = (props) => {
   );
 };
 
-export default PhotoList;
+export default PhotoContainer;
 
 
 

@@ -6,7 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-ReactDOM.render(<BrowserRouter><Route path='/' render={({match})=><App match={match} /> }/></BrowserRouter>, document.getElementById('root'));
+ReactDOM.render(<BrowserRouter><Route path={'/'} render={(props) => <App {...props} /> } /> </BrowserRouter>, document.getElementById('root'));
 
 
 // If you want your app to work offline and load faster, you can change

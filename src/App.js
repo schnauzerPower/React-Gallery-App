@@ -9,33 +9,35 @@ Secret:
 
 import React, {Component} from 'react';
 import {
-    BrowserRouter,
     Route,
-    NavLink,
     Redirect
 } from 'react-router-dom';
 
 import axios from 'axios';
-import SearchForm from './Components/SearchForm';
-import Cats from './Components/Cats';
-import Dogs from './Components/Dogs';
-import Birds from './Components/Birds';
-import PhotoList from './Components/PhotoList';
+import PhotoContainer from './Components/PhotoContainer';
+import Nav from './Components/Nav';
 
 export default class App extends Component {
   
   constructor(props) {
     super(props);
-  
     this.state = {
         photos: [],
-        loading: true,
+        loading: true
     };
   }
     
   componentDidMount() {
+    //If no query has been manually entered into address bar, default to cat pictures
+      
+    if(this.props.location.pathname === '/') {
+        this.performSearch("cats");
+    }
+    else {
+        this.performSearch(this.props.location.pathname);
+    }
     
-    
+   
   }
 
   performSearch = (query) => {
@@ -53,37 +55,17 @@ export default class App extends Component {
   
   
   render() {
-      console.log(this.state.loading);
      return (
-        
-            <body>
             <div className='container'>
-             <nav className="main-nav">
-                    <Route path='/' render={({match, history}) => <SearchForm  onSearch={this.performSearch} match={match} history={history}/>} />
-                    <ul>
-                        <li><NavLink to='/cats' activeClassName='active'>Cats</NavLink></li>
-                        <li><NavLink to='/dogs' activeClassName='active'>Dogs</NavLink></li>
-                        <li><NavLink to='/birds' activeClassName='active'>Birds</NavLink></li>
-                    </ul>
-                </nav>
+                <Route path='/' render={(props) => <Nav  onSearch={this.performSearch} {...props}/>} />
                 <Route exact path='/' render={()=> <Redirect to='/cats' />} />
-                <Route path='/cats' render={()=> <Cats getCats={this.performSearch}  />} />
-                <Route path='/dogs' render={()=> <Dogs getDogs={this.performSearch}  />} />
-                <Route path='/birds' render={()=> <Birds getBirds={this.performSearch}  />} />
-                
                 {
-                    
+                    //Create a loading message to as the pictures load
                     (this.state.loading)
                     ?<p>Loading...</p>
-                    : <Route path='/:query' render={({match})=> <PhotoList data={this.state.photos} match={match} loading={this.state.loading} 
-                getPictures={this.performSearch} />} />
-                    
+                    : <Route path='/:query' render={(props)=> <PhotoContainer data={this.state.photos} {...props} />}  /> 
                 }
-      
             </div>
-            </body>
-       
-        
      );
 
   }
