@@ -59,9 +59,6 @@ export default class App extends Component {
   
   
   render() {
-      console.log("fuck")
-      console.log(key);
-      console.log("this")
      return (
             <div className='container'>
                 <Route path='/' render={(props) => <Nav  onSearch={this.performSearch} {...props}/>} />
